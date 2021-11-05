@@ -1,6 +1,7 @@
 package com.bluecc.bluesrv.common;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import lombok.Data;
 import org.junit.jupiter.api.Test;
 
@@ -70,5 +71,13 @@ public class JsonSerializeTest {
         LocalDateTime dateTime = LocalDateTime.of(2017, Month.JUNE, 15, 13, 39);
         Instant instant = dateTime.atZone(ZoneId.of("Europe/Paris")).toInstant();
         System.out.println(instant); // 2017-06-15T11:39:00Z
+    }
+
+    @Test
+    void testJsonObject(){
+        JsonObject jo=new JsonObject();
+        jo.addProperty("name", "samlet");
+        jo.addProperty("age", 18);
+        System.out.println(GSON.toJson(jo));
     }
 }

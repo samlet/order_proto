@@ -52,5 +52,9 @@ public class Helper {
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter().nullSafe())
             .setPrettyPrinting()
             .create();
+
+    public static void pretty(Object o){
+        System.out.println(GSON.toJson(o));
+    }
 }
 

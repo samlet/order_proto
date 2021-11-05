@@ -11,6 +11,7 @@ public class MetaHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         this.strictInsertFill(metaObject, "createdStamp", LocalDateTime.class, LocalDateTime.now());
+        this.updateFill(metaObject);
     }
 
     @Override
