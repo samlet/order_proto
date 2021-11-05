@@ -34,6 +34,10 @@ public class EcommApp {
 	public Function<Foo, Bar> uppercase() {
 		return value -> new Bar(value.uppercase());
 	}
+	@Bean
+	public Function<String, String> toUpperCase() {
+		return s -> s.toUpperCase();
+	}
 
 }
 

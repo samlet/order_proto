@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author samlet
- * @since 2021-11-04
+ * @since 2021-11-05
  */
 @Service
 public class OrderStatusServiceImpl extends ServiceImpl<OrderStatusMapper, OrderStatusEntity> implements IOrderStatusService {
