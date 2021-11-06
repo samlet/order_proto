@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author samlet
- * @since 2021-11-05
+ * @since 2021-11-06
  */
 public interface IProductPriceActionService extends IService<ProductPriceActionEntity> {
 
