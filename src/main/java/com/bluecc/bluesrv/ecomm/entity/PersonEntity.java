@@ -95,5 +95,7 @@ public class PersonEntity extends BaseEntity {
 
     private String cardId;
 
+    private String maritalStatusEnumId;
+
 
 }

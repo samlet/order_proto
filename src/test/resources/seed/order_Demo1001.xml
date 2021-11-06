@@ -1,0 +1,14 @@
+<Order>
+    <!--Demo Purchase Order data for Accounting-->
+    <OrderHeader orderId="Demo1001" orderTypeId="PURCHASE_ORDER" orderName="Demo Purchase Order " salesChannelEnumId="UNKNWN_SALES_CHANNEL" orderDate="2009-08-13 17:45:50.419" priority="2" entryDate="2009-08-13 17:45:50.419" statusId="ORDER_COMPLETED" currencyUom="USD" remainingSubTotal="48.00" grandTotal="48.00" webSiteId="WebStore" />
+    <OrderItem orderId="Demo1001" orderItemSeqId="00001" orderItemTypeId="PRODUCT_ORDER_ITEM" productId="GZ-2644" prodCatalogId="DemoCatalog" isPromo="N" quantity="2.000000" selectedAmount="0.000000" unitPrice="24.00" unitListPrice="0.00" isModifiedPrice="N" itemDescription="GZ-2644-0 Round Gizmo" statusId="ITEM_COMPLETED" estimatedDeliveryDate="2009-08-13 17:43:53.0"/>
+    <OrderItemPriceInfo orderItemPriceInfoId="9001" orderId="Demo1001" orderItemSeqId="00001" description="SupplierProduct [minimumOrderQuantity:0.000000, lastPrice: 24.000]"/>
+    <OrderRole orderId="Demo1001" partyId="Company" roleTypeId="BILL_TO_CUSTOMER" />
+    <OrderRole orderId="Demo1001" partyId="DemoSupplier" roleTypeId="BILL_FROM_VENDOR"/>
+    <OrderRole orderId="Demo1001" partyId="DemoSupplier" roleTypeId="SHIP_FROM_VENDOR"/>
+    <OrderRole orderId="Demo1001" partyId="DemoSupplier" roleTypeId="SUPPLIER_AGENT"/>
+    <OrderItemShipGroup orderId="Demo1001" shipGroupSeqId="00001" shipmentMethodTypeId="NO_SHIPPING" carrierPartyId="_NA_" carrierRoleTypeId="CARRIER" contactMechId="9200" maySplit="N" isGift="N" estimatedDeliveryDate="2009-08-13 17:43:53.0"/>
+    <OrderItemShipGroupAssoc orderId="Demo1001" orderItemSeqId="00001" shipGroupSeqId="00001" quantity="2.000000"/>
+
+    <OrderStatus orderStatusId="9009" statusId="ORDER_CREATED" orderId="Demo1001" statusDatetime="2009-08-13 17:45:50.419" statusUserLogin="admin"/>
+</Order>

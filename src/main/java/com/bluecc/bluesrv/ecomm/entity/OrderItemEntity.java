@@ -125,5 +125,7 @@ public class OrderItemEntity extends BaseEntity {
 
     private String changeByUserLoginId;
 
+    private LocalDateTime reserveAfterDate;
+
 
 }

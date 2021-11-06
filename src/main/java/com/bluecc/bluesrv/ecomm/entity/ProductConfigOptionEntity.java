@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.bluecc.bluesrv.common.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -41,6 +42,10 @@ public class ProductConfigOptionEntity extends BaseEntity {
     private String description;
 
     private BigDecimal sequenceNum;
+
+    private LocalDateTime fromDate;
+
+    private LocalDateTime thruDate;
 
 
 }

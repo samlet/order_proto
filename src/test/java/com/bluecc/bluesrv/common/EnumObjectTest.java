@@ -10,27 +10,35 @@ import static com.bluecc.bluesrv.common.Helper.pretty;
 public class EnumObjectTest {
     @Data
     @Accessors(chain = true)
-    public static class rtData{
+    public static class rtData {
         TestRoleType roleType;
     }
 
     @Test
-    void testRoleTypes(){
+    void testRoleTypes() {
         System.out.println(TestRoleType.NE);
-        rtData data=new rtData().setRoleType(TestRoleType.HE);
+        rtData data = new rtData().setRoleType(TestRoleType.HE);
         pretty(data);
         for (TestRoleType childType : TestRoleType.childTypes(TestRoleType.H.typeId)) {
             System.out.println(childType);
         }
 
-        data=GSON.fromJson("{\"role_type\": \"HE\"}", rtData.class);
+        data = GSON.fromJson("{\"role_type\": \"HE\"}", rtData.class);
         System.out.println(data);
 
         TestRoleType.H.childTypes().forEach(e -> System.out.println(e));
     }
 
     @Test
-    void testGenTypes(){
+    void testGenTypes() {
         RoleType.SFA_ROLE.childTypes().forEach(e -> System.out.println(e));
+    }
+
+    @Test
+    void testGenTypes_ContactMechTypePurpose() {
+        ContactMechTypePurpose.childTypes(ContactMechTypePurpose.PHONE_DID.parentType)
+                .forEach(e -> System.out.println(e));
+        // IEnumeration<?> e=ContactMechTypePurpose.valueOfType(ContactMechTypePurpose.PHONE_DID.parentType);
+        // e.childTypes().forEach(c -> System.out.println("- "+c.getDescription()));
     }
 }

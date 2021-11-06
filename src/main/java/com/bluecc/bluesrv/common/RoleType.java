@@ -6,8 +6,9 @@ import com.google.common.collect.Multimap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
-public enum RoleType {
+public enum RoleType implements IEnumeration<RoleType>{
     MAIN_ROLE("MAIN_ROLE", "", "Main Role"),
     ACCOUNT_LEAD("ACCOUNT_LEAD", "", "Account Lead"),
     ADMIN("ADMIN", "", "Administrator"),
@@ -99,7 +100,16 @@ public enum RoleType {
     STOCKER("STOCKER", "EMPLOYEE", "Stocker"),
     SUBSIDIARY("SUBSIDIARY", "ORGANIZATION_UNIT", "Subsidiary"),
     WORKER("WORKER", "EMPLOYEE", "Worker"),
-    EMAIL_ADMIN("EMAIL_ADMIN", "PERSON_ROLE", "Email Administrator")
+    EMAIL_ADMIN("EMAIL_ADMIN", "PERSON_ROLE", "Email Administrator"),
+    BUDGET("BUDGET", "", "Budget Roles Group (not to be assigned to parties)"),
+    BUDGET_APPL("BUDGET_APPL", "BUDGET", "Budget Application"),
+    BUDGET_MGR("BUDGET_MGR", "BUDGET", "Budget Manager"),
+    BUDGET_RVR("BUDGET_RVR", "BUDGET", "Budget Reviewer"),
+    BUDGET_APPRV("BUDGET_APPRV", "BUDGET", "Budget Approver"),
+    FAM_ASSIGNEE("FAM_ASSIGNEE", "", "Fixed Asset Maint Assignee"),
+    FAM_SUPPLIER("FAM_SUPPLIER", "FAM_ASSIGNEE", "Maintenance Supplier or Service"),
+    FAM_MANAGER("FAM_MANAGER", "FAM_ASSIGNEE", "Maintenance Manager or Supervisor"),
+    FAM_WORKER("FAM_WORKER", "FAM_ASSIGNEE", "Maintenance Worker")
     ;
 
     private static final Map<String, RoleType> BY_TYPE = new HashMap<>();
@@ -112,8 +122,11 @@ public enum RoleType {
         }
     }
 
+    @Getter(onMethod_ = {@Override})
     public final String typeId;
+    @Getter(onMethod_ = {@Override})
     public final String parentType;
+    @Getter(onMethod_ = {@Override})
     public final String description;
 
     private RoleType(String typeId, String parentType, String description) {
@@ -129,6 +142,8 @@ public enum RoleType {
     public static Collection<RoleType> childTypes(String typeId) {
         return BY_PARENT_TYPE.get(typeId);
     }
+
+    @Override
     public Collection<RoleType> childTypes(){
         return childTypes(this.typeId);
     }

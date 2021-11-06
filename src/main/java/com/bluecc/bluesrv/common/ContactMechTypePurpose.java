@@ -6,8 +6,9 @@ import com.google.common.collect.Multimap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
-public enum ContactMechTypePurpose {
+public enum ContactMechTypePurpose implements IEnumeration<ContactMechTypePurpose>{
     BILLING_EMAIL("BILLING_EMAIL", "EMAIL_ADDRESS", ""),
     MARKETING_EMAIL("MARKETING_EMAIL", "EMAIL_ADDRESS", ""),
     PAYMENT_EMAIL("PAYMENT_EMAIL", "EMAIL_ADDRESS", ""),
@@ -54,8 +55,11 @@ public enum ContactMechTypePurpose {
         }
     }
 
+    @Getter(onMethod_ = {@Override})
     public final String typeId;
+    @Getter(onMethod_ = {@Override})
     public final String parentType;
+    @Getter(onMethod_ = {@Override})
     public final String description;
 
     private ContactMechTypePurpose(String typeId, String parentType, String description) {
@@ -71,6 +75,8 @@ public enum ContactMechTypePurpose {
     public static Collection<ContactMechTypePurpose> childTypes(String typeId) {
         return BY_PARENT_TYPE.get(typeId);
     }
+
+    @Override
     public Collection<ContactMechTypePurpose> childTypes(){
         return childTypes(this.typeId);
     }

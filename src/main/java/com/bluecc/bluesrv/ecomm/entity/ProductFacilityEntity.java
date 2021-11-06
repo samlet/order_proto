@@ -46,5 +46,7 @@ public class ProductFacilityEntity extends BaseEntity {
 
     private String requirementMethodEnumId;
 
+    private String replenishMethodEnumId;
+
 
 }

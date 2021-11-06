@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.bluecc.bluesrv.common.BaseEntity;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -34,6 +35,10 @@ public class PartyRoleEntity extends BaseEntity {
     private String partyId;
 
     private String roleTypeId;
+
+    private LocalDateTime fromDate;
+
+    private LocalDateTime thruDate;
 
 
 }

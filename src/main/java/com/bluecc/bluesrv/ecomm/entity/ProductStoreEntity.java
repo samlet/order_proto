@@ -192,5 +192,7 @@ public class ProductStoreEntity extends BaseEntity {
 
     private String headerRightBackground;
 
+    private String allocateInventory;
+
 
 }

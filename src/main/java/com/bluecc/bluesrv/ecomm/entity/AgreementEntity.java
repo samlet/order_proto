@@ -54,5 +54,7 @@ public class AgreementEntity extends BaseEntity {
 
     private String textData;
 
+    private String statusId;
+
 
 }
