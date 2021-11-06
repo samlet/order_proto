@@ -24,8 +24,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bluecc.bluesrv.common.Helper.GSON;
-import static com.bluecc.bluesrv.common.Helper.pretty;
+import static com.bluecc.bluesrv.common.Helper.*;
+import static com.bluecc.bluesrv.ecomm.order.PurchaseOrder.gson;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 
 public class XmlFnTest {
@@ -35,59 +35,10 @@ public class XmlFnTest {
                 Charsets.UTF_8);
     }
 
-    public static void collectEntityData(Multimap<String, JsonObject> dataList, String xmlContent) {
-        NodeList nodeList = getNodeList(xmlContent);
-        for (int i = 0; i < nodeList.getLength(); ++i) {
-            if (nodeList.item(i) instanceof Element) {
-                Element element = (Element) nodeList.item(i);
-                dataList.put(element.getTagName(), convertElement(element));
-            }
-        }
-    }
-
-    private static JsonObject convertElement(Element element) {
-        JsonObject jsonObject = new JsonObject();
-        NamedNodeMap attrs = element.getAttributes();
-        for (int i = 0; i < attrs.getLength(); ++i) {
-            Node node = attrs.item(i);
-            jsonObject.addProperty(node.getNodeName(), node.getNodeValue());
-        }
-        return jsonObject;
-    }
-
-    private static NodeList getNodeList(String xmlContent) {
-        try {
-            // Get Document Builder
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-
-            // Build Document
-            Document document = builder.parse(new ByteArrayInputStream(xmlContent.getBytes(StandardCharsets.UTF_8)));
-
-            // Normalize the XML Structure; It's just too important !!
-            document.getDocumentElement().normalize();
-
-            // Here comes the root node
-            Element root = document.getDocumentElement();
-            // System.out.println(root.getNodeName());
-            return root.getChildNodes();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-    }
-
-    public static final Gson gson = new GsonBuilder()
-            // .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
-            .setDateFormat("yyyy-MM-dd HH:mm:ss")
-//            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-            .registerTypeAdapter(LocalDateTime.class, new Helper.LocalDateTimeAdapterWithFormat().nullSafe())
-            .setPrettyPrinting()
-            .create();
-
     @Test
     void processOrder() throws IOException {
         Multimap<String, JsonObject> dataList= ArrayListMultimap.create();
-        collectEntityData(dataList, dataSource("order_Demo1001.xml"));
+        collectEntityData(dataList, dataSource("PurchaseOrder_Demo1001.xml"));
         System.out.println(dataList.keySet());
 
         List<OrderItemEntity> orderItems=dataList.get("OrderItem").stream()

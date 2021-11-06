@@ -1,11 +1,17 @@
 package com.bluecc.bluesrv.common;
 
+import com.google.common.collect.Multimap;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import org.w3c.dom.*;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.IsoChronology;
@@ -82,5 +88,47 @@ public class Helper {
     public static void pretty(Object o){
         System.out.println(GSON.toJson(o));
     }
+
+    public static void collectEntityData(Multimap<String, JsonObject> dataList, String xmlContent) {
+        NodeList nodeList = getNodeList(xmlContent);
+        for (int i = 0; i < nodeList.getLength(); ++i) {
+            if (nodeList.item(i) instanceof Element) {
+                Element element = (Element) nodeList.item(i);
+                dataList.put(element.getTagName(), convertElement(element));
+            }
+        }
+    }
+
+    private static JsonObject convertElement(Element element) {
+        JsonObject jsonObject = new JsonObject();
+        NamedNodeMap attrs = element.getAttributes();
+        for (int i = 0; i < attrs.getLength(); ++i) {
+            Node node = attrs.item(i);
+            jsonObject.addProperty(node.getNodeName(), node.getNodeValue());
+        }
+        return jsonObject;
+    }
+
+    private static NodeList getNodeList(String xmlContent) {
+        try {
+            // Get Document Builder
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            // Build Document
+            Document document = builder.parse(new ByteArrayInputStream(xmlContent.getBytes(StandardCharsets.UTF_8)));
+
+            // Normalize the XML Structure; It's just too important !!
+            document.getDocumentElement().normalize();
+
+            // Here comes the root node
+            Element root = document.getDocumentElement();
+            // System.out.println(root.getNodeName());
+            return root.getChildNodes();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
 }
 
