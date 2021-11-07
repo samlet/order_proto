@@ -1,5 +1,7 @@
 package com.bluecc.bluesrv.common;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.Data;
@@ -9,6 +11,7 @@ import java.time.*;
 import java.util.Date;
 
 import static com.bluecc.bluesrv.common.Helper.GSON;
+import static com.bluecc.bluesrv.common.Helper.pretty;
 
 public class JsonSerializeTest {
     @Data
@@ -79,5 +82,15 @@ public class JsonSerializeTest {
         jo.addProperty("name", "samlet");
         jo.addProperty("age", 18);
         System.out.println(GSON.toJson(jo));
+    }
+
+    @Test
+    void testMultimap(){
+        Multimap<String, JsonObject> dataList= ArrayListMultimap.create();
+        JsonObject o=new JsonObject();
+        o.addProperty("name", "samlet");
+        dataList.put("first", o);
+        System.out.println(dataList);
+        pretty(dataList.asMap());
     }
 }

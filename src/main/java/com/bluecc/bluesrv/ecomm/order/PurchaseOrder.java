@@ -2,12 +2,10 @@ package com.bluecc.bluesrv.ecomm.order;
 
 import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import com.bluecc.bluesrv.common.Helper;
-import com.bluecc.bluesrv.ecomm.entity.OrderHeaderEntity;
-import com.bluecc.bluesrv.ecomm.entity.OrderItemEntity;
 import com.bluecc.bluesrv.ecomm.entity.OrderItemPriceInfoEntity;
-import com.bluecc.bluesrv.ecomm.service.IOrderHeaderService;
+import com.bluecc.bluesrv.ecomm.entity.OrderRoleEntity;
 import com.bluecc.bluesrv.ecomm.service.IOrderItemPriceInfoService;
-import com.bluecc.bluesrv.ecomm.service.IOrderItemService;
+import com.bluecc.bluesrv.ecomm.service.IOrderRoleService;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
@@ -32,10 +30,15 @@ import static com.bluecc.bluesrv.common.Helper.*;
 @Slf4j
 @Transactional
 public class PurchaseOrder {
+    // @Autowired
+    // IOrderItemService orderItemService;
     @Autowired
-    IOrderItemService orderItemService;
+    OrderItemFn orderItemFn;
     @Autowired
-    IOrderHeaderService orderHeaderService;
+    OrderHeaderFn orderHeaderFn;
+    @Autowired
+    OrderRoleFn orderRoleFn;
+
     @Autowired
     IOrderItemPriceInfoService orderItemPriceInfoService;
 
@@ -45,6 +48,7 @@ public class PurchaseOrder {
             .registerTypeAdapter(LocalDateTime.class, new Helper.LocalDateTimeAdapterWithFormat().nullSafe())
             .setPrettyPrinting()
             .create();
+
 
     @Data
     @Accessors(chain = true)
@@ -63,26 +67,33 @@ public class PurchaseOrder {
             // resign the order id
             String orderId=identifierGenerator.nextId(null).toString();
 
-            List<OrderItemEntity> orderItems=dataList.get("OrderItem").stream()
-                    .map(e -> gson.fromJson(e, OrderItemEntity.class))
-                    .map(e -> e.setOrderId(orderId))
-                    .collect(Collectors.toList());
-            orderItems.forEach(e -> orderItemService.save(e));
+            // List<OrderItemEntity> orderItems=dataList.get("OrderItem").stream()
+            //         .map(e -> gson.fromJson(e, OrderItemEntity.class))
+            //         .map(e -> e.setOrderId(orderId))
+            //         .collect(Collectors.toList());
+            // orderItemService.saveBatch(orderItems);
 
-            List<OrderHeaderEntity> orderHeader=dataList.get("OrderHeader").stream()
-                    .map(e -> gson.fromJson(e, OrderHeaderEntity.class))
-                    .map(e -> e.setOrderId(orderId))
-                    .collect(Collectors.toList());
-            orderHeader.forEach(e -> orderHeaderService.save(e));
+            OrderElements ds=new OrderElements(orderId, dataList.asMap());
+            orderHeaderFn.storeOrderHeader()
+                    .andThen(orderItemFn.storeOrderItems())
+                    .andThen(orderRoleFn.storeOrderRoles())
+                    .apply(ds);
 
-            List<OrderItemPriceInfoEntity> orderItemPriceInfoEntities=dataList.get("OrderItemPriceInfo").stream()
-                    .map(e -> gson.fromJson(e, OrderItemPriceInfoEntity.class))
-                    .map(e -> e.setOrderId(orderId).setOrderItemPriceInfoId(null))
-                    .collect(Collectors.toList());
-            orderItemPriceInfoEntities.forEach(e -> orderItemPriceInfoService.save(e));
+            // storeOrderHeader(dataList, orderId);
+            storeOrderItemPrice(dataList, orderId);
+            // storeOrderRoles(dataList, orderId);
 
             return new Response().setResult("ok").setId(orderId);
         };
     }
+
+    private void storeOrderItemPrice(Multimap<String, JsonObject> dataList, String orderId) {
+        List<OrderItemPriceInfoEntity> orderItemPriceInfoEntities= dataList.get("OrderItemPriceInfo").stream()
+                .map(e -> gson.fromJson(e, OrderItemPriceInfoEntity.class))
+                .map(e -> e.setOrderId(orderId).setOrderItemPriceInfoId(null))
+                .collect(Collectors.toList());
+        orderItemPriceInfoEntities.forEach(e -> orderItemPriceInfoService.save(e));
+    }
+
 }
 
