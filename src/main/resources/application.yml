@@ -13,7 +13,7 @@ spring:
   cloud:
     stream:
       function:
-        definition: fizzBuzzProducer;fizzBuzzProcessor;fizzBuzzConsumer
+        definition: fizzBuzzProducer;fizzBuzzProcessor;fizzBuzzConsumer;printer
       bindings:
         fizzBuzzProducer-out-0:
           destination: numbers
@@ -23,6 +23,8 @@ spring:
           destination: fizz-buzz
         fizzBuzzConsumer-in-0:
           destination: fizz-buzz
+        printer-in-0:
+          destination: printer
       kafka:
         binder:
           brokers: localhost:9092

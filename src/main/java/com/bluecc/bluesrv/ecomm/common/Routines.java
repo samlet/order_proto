@@ -45,4 +45,9 @@ public class Routines {
             return String.valueOf(value);
         }
     }
+
+    @Bean
+    public Consumer<String> printer(){
+        return (value) -> log.info(">> " + value);
+    }
 }
