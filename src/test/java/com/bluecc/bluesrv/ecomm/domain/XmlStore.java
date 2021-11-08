@@ -36,6 +36,7 @@ public class XmlStore {
 
     @Autowired
     PurchaseOrder purchaseOrder;
+
     @Test
     void storeXml() throws IOException {
         Multimap<String, JsonObject> dataList= ArrayListMultimap.create();

@@ -12,7 +12,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /*
-$ just app ecomm.EcommApp
+$ just ecomm
  */
 
 @SpringBootApplication

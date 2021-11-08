@@ -33,4 +33,10 @@ public class OrderHeaderFn {
         orderHeaderService.saveBatch(orderHeader);
         return rs;
     }
+
+    @Bean
+    Function<String, OrderHeaderEntity> retrieveOrderHeader(){
+        return id -> orderHeaderService.getById(id);
+    }
 }
+
